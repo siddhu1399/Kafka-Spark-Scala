@@ -1,7 +1,8 @@
 import org.apache.spark.sql.SparkSession
 
 object consumerKafka extends App {
-
+/* creating a spark session */
+    
     val spark = SparkSession
       .builder()
       .master("yarn")
@@ -11,6 +12,8 @@ object consumerKafka extends App {
 
     import spark.implicits._
 
+/* to establish connection to Kafka , subscribe to a topic */
+    
     val ds = spark
       .read
       .format("kafka")
@@ -21,6 +24,8 @@ object consumerKafka extends App {
       .as[(String, String)]
 
     spark.conf.set("spark.sql.streaming.checkpointLocation", "/tmp/")
+    
+/* creating a spark dataframe to store messages in kafka topic into hive table */
     
     val df = ds
       .write
